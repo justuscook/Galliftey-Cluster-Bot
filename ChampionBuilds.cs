@@ -351,6 +351,7 @@ namespace GCB
             try
             {
                 var roles = (Context.Message.Author as SocketGuildUser).Roles;
+                //540712854177841173 team builders
                 if (!roles.Contains(Context.Guild.GetRole(540712854177841173)) && !roles.Contains(Context.Guild.GetRole(619927345838686209)) && Context.Message.Author.Id != 269643701888745474 && !roles.Contains(Context.Guild.GetRole(514619966125768705)))
                 {
                     await ReplyAndDeleteAsync("Puny mortal you are not worthy of submitting builds!", timeout: TimeSpan.FromSeconds(10));
@@ -362,7 +363,7 @@ namespace GCB
                 var editBuildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(editJsonData);
                 var build = editBuildList.FirstOrDefault(x => x.guid == guid);
 
-                if (build.authorID != Context.User.Id)
+                if (build.authorID != Context.User.Id || !roles.Contains(Context.Guild.GetRole(514619966125768705)))
                 {
                     await ReplyAsync("You can only edit your own builds.");
                     return;
