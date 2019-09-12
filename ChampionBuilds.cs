@@ -702,6 +702,7 @@ namespace GCB
             var filePath = "builds.json";
             var jsonData = File.ReadAllText(filePath);
             var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData) ?? new List<ChampionBuild>();
+            buildList = buildList.OrderBy(x => x.name).ToList();
             foreach (var build in buildList)
             {
                 if (!champs.Contains(build.name)) champs.Add(build.name);
@@ -711,6 +712,28 @@ namespace GCB
             foreach (var champ in champs)
             {
                 champString += $" **{champ}** |";
+            }
+            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
+        }
+
+        [Command("instance", RunMode = RunMode.Async)]
+        [Alias("inst", "listinstances")]
+        public async Task GetCurrentInstances()
+        {
+            var instances = new List<string>();
+            var filePath = "builds.json";
+            var jsonData = File.ReadAllText(filePath);
+            var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData) ?? new List<ChampionBuild>();
+            buildList = buildList.OrderBy(x => x.instance).ToList();
+            foreach (var build in buildList)
+            {
+                if (!instances.Contains(build.instance)) instances.Add(build.instance);
+                else continue;
+            }
+            var champString = "";
+            foreach (var instance in instances)
+            {
+                champString += $" **{instance}** |";
             }
             await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
         }
