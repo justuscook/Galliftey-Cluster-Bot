@@ -448,7 +448,7 @@ namespace GCB
                         image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, gearImage.Height + statsImage.Height), 1));
                         await ReplyAsync("Thanks for the build!");
                         if (name.Content != "keep") build.name = name.Content;
-                        if(instance.Content !="keep") build.instance = instance.Content;
+                        if (instance.Content != "keep") build.instance = instance.Content;
                         build.authorID = Context.Message.Author.Id;
                         build.guid = guid;
                         if (exitStrings.Contains(note.Content.ToLower())) build.note = "N/A";
@@ -631,6 +631,49 @@ namespace GCB
             }
         }
 
+        [Command("champs", RunMode = RunMode.Async)]
+        [Alias("list", "champions", "listchamps", "listhchampions")]
+        public async Task GetCurrentChampList()
+        {
+            var champs = new List<string>();
+            var filePath = "builds.json";
+            var jsonData = File.ReadAllText(filePath);
+            var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData) ?? new List<ChampionBuild>();
+            buildList = buildList.OrderBy(x => x.name).ToList();
+            foreach (var build in buildList)
+            {
+                if (!champs.Contains(build.name)) champs.Add(build.name);
+                else continue;
+            }
+            var champString = "";
+            foreach (var champ in champs)
+            {
+                champString += $" **{champ}** |";
+            }
+            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
+        }
+
+        [Command("instances", RunMode = RunMode.Async)]
+        [Alias("inst", "listinstances")]
+        public async Task GetCurrentInstances()
+        {
+            var instances = new List<string>();
+            var filePath = "builds.json";
+            var jsonData = File.ReadAllText(filePath);
+            var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData) ?? new List<ChampionBuild>();
+            buildList = buildList.OrderBy(x => x.instance).ToList();
+            foreach (var build in buildList)
+            {
+                if (!instances.Contains(build.instance)) instances.Add(build.instance);
+                else continue;
+            }
+            var champString = "";
+            foreach (var instance in instances)
+            {
+                champString += $" **{instance}** |";
+            }
+            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
+        }
         [Command("get", RunMode = RunMode.Async)]
         public async Task GetBuild([Remainder]string championName = "")
         {
@@ -639,7 +682,7 @@ namespace GCB
                 var filePath = "builds.json";
                 var jsonData = File.ReadAllText(filePath);
                 var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData);
-                var championBuilds = buildList.Where(x => x.name.ToLower() == championName.ToLower());
+                var championBuilds = buildList.Where(x => x.name.ToLower() == championName.ToLower()).OrderBy(x => x.name);
                 var pages = new List<PaginatedMessage.Page>();
                 foreach (var build in championBuilds)
                 {
@@ -694,48 +737,69 @@ namespace GCB
             }
         }
 
-        [Command("champs", RunMode = RunMode.Async)]
-        [Alias("list", "champions","getall")]
-        public async Task GetCurrentChampList()
-        {
-            var champs = new List<string>();
-            var filePath = "builds.json";
-            var jsonData = File.ReadAllText(filePath);
-            var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData) ?? new List<ChampionBuild>();
-            buildList = buildList.OrderBy(x => x.name).ToList();
-            foreach (var build in buildList)
-            {
-                if (!champs.Contains(build.name)) champs.Add(build.name);
-                else continue;
-            }
-            var champString = "";
-            foreach (var champ in champs)
-            {
-                champString += $" **{champ}** |";
-            }
-            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
-        }
 
-        [Command("instance", RunMode = RunMode.Async)]
-        [Alias("inst", "listinstances")]
-        public async Task GetCurrentInstances()
+        [Command("getinstance", RunMode = RunMode.Async)]
+        [Alias("geti", "getinst")]
+        public async Task GetInstanceBuilds(string instanceName)
         {
-            var instances = new List<string>();
-            var filePath = "builds.json";
-            var jsonData = File.ReadAllText(filePath);
-            var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData) ?? new List<ChampionBuild>();
-            buildList = buildList.OrderBy(x => x.instance).ToList();
-            foreach (var build in buildList)
+            try
             {
-                if (!instances.Contains(build.instance)) instances.Add(build.instance);
-                else continue;
+                var filePath = "builds.json";
+                var jsonData = File.ReadAllText(filePath);
+                var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData);
+                var championBuilds = buildList.Where(x => x.instance.ToLower() == instanceName.ToLower()).OrderBy(x => x.name);
+                var pages = new List<PaginatedMessage.Page>();
+                foreach (var build in championBuilds)
+                {
+                    var page = new PaginatedMessage.Page();
+                    page.ImageUrl = build.allImages;
+                    page.Fields = new List<EmbedFieldBuilder>
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Champion:",
+                        Value = build.name
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Created by:",
+                        Value = Context.Client.GetUser( build.authorID).Username
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Instance:",
+                        Value = build.instance
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Build notes:",
+                        Value = build.note
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "GUID:",
+                        Value = build.guid
+                    },
+
+            };
+                    pages.Add(page);
+                }
+                var pager = new PaginatedMessage
+                {
+                    Pages = pages,
+                };
+
+                await PagedReplyAsync(pager, new ReactionList
+                {
+                    Forward = true,
+                    Backward = true,
+                    Trash = true,
+                });
             }
-            var champString = "";
-            foreach (var instance in instances)
+            catch (Exception e)
             {
-                champString += $" **{instance}** |";
+                await ReplyAsync($"{Context.Client.GetUser(269643701888745474).Mention} get in here please, in your haste to finish me you didn't account for this...\n{e.Message}");
             }
-            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
         }
 
         [Command("status", RunMode = RunMode.Async)]
