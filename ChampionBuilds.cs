@@ -851,6 +851,7 @@ namespace GCB
                     type = ActivityType.Streaming;
                     break;
             }
+            await Context.Client.SetStatusAsync(UserStatus.Online);
             await Context.Client.SetActivityAsync(new Game(text, type));
         }
     }
