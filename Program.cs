@@ -8,6 +8,7 @@ using System.Reflection;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Discord.Addons.Interactive;
+using System.Timers;
 
 namespace Raid_SL_Bot
 {
@@ -25,8 +26,26 @@ namespace Raid_SL_Bot
             });
         private CommandService commands;
         private IServiceProvider services;
+        public Timer timer = new Timer();
 
-        //the one cool thing i have done that was on nuget, it adds reactiont o bot messages so u can make them 'minimized' and auto deletes after 5 mins
+
+        public void AlarmClock()
+        {
+            timer.Interval = 60000;
+            timer.Elapsed += tick;
+        }
+        public async void tick(object sender, EventArgs e)
+        {
+
+            if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
+            {
+                var chan = client.GetChannel(521166881529397258) as ISocketMessageChannel;//g2 CB chan
+                var NMTeam = client.GetGuild(514616202249895936).GetRole(614097750866526208);//g2
+                var BruTeam = client.GetGuild(514616202249895936).GetRole(614098077141303319);//g2
+                await chan.SendMessageAsync($"3 Hours to Clan Boss reset!! {BruTeam.Mention} {NMTeam.Mention}");
+            }
+        }
+      
 
         public string Prefix;
         public async Task MainAsync()
@@ -36,7 +55,6 @@ namespace Raid_SL_Bot
             var prefix = jobj.SelectToken("prefix").ToString();
             Prefix = prefix;
             var token = jobj.SelectToken("token").ToString();
-
             client = new DiscordSocketClient();
             //console log
             client.Log += log =>
@@ -65,6 +83,8 @@ namespace Raid_SL_Bot
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), services);
             //wehn bot sees a message do stuff
             client.MessageReceived += HandleCommandAsync;
+            timer.Start();
+            AlarmClock();
             await Task.Delay(-1);
         }
         public bool IsThisChannelAllowed(SocketMessage m)
