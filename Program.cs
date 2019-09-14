@@ -36,16 +36,22 @@ namespace Raid_SL_Bot
         }
         public async void tick(object sender, EventArgs e)
         {
-
-            if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
+            try
             {
-                var chan = client.GetChannel(521166881529397258) as ISocketMessageChannel;//g2 CB chan
-                var NMTeam = client.GetGuild(514616202249895936).GetRole(614097750866526208);//g2
-                var BruTeam = client.GetGuild(514616202249895936).GetRole(614098077141303319);//g2
-                await chan.SendMessageAsync($"3 Hours to Clan Boss reset!! {BruTeam.Mention} {NMTeam.Mention}");
+                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
+                {
+                    var chan = client.GetChannel(521166881529397258) as ISocketMessageChannel;//g2 CB chan
+                    var NMTeam = client.GetGuild(514616202249895936).GetRole(614097750866526208);//g2
+                    var BruTeam = client.GetGuild(514616202249895936).GetRole(614098077141303319);//g2
+                    await chan.SendMessageAsync($"3 Hours to Clan Boss reset!! {BruTeam.Mention} {NMTeam.Mention}");
+                }
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine($"THe timer went off, but\n{err}");
             }
         }
-      
+
 
         public string Prefix;
         public async Task MainAsync()
@@ -89,7 +95,7 @@ namespace Raid_SL_Bot
         }
         public bool IsThisChannelAllowed(SocketMessage m)
         {
-            if (m.Channel.Id == 577869684813201438 || m.Channel.Id == 581431959457366016 || m.Channel.Id == 619630134210854925  || m.Channel.Id == 620344940852936714) return true;
+            if (m.Channel.Id == 577869684813201438 || m.Channel.Id == 581431959457366016 || m.Channel.Id == 619630134210854925 || m.Channel.Id == 620344940852936714 || m.Channel.Id == 622406661708972042) return true;
             else return false;
         }
         public async Task HandleCommandAsync(SocketMessage m)
