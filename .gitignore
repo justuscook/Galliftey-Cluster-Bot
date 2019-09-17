@@ -350,3 +350,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+Release/builds.json
+Release/builds-9-16-2019.json
+Release/builds.json
