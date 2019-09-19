@@ -1,1 +1,2 @@
 dotnet "GCB.dll"
+pause
