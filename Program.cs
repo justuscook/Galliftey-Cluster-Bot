@@ -40,10 +40,42 @@ namespace Raid_SL_Bot
             {
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
                 {
-                    var chan = client.GetChannel(521166881529397258) as ISocketMessageChannel;//g2 CB chan
-                    var NMTeam = client.GetGuild(514616202249895936).GetRole(614097750866526208);//g2
-                    var BruTeam = client.GetGuild(514616202249895936).GetRole(614098077141303319);//g2
-                    await chan.SendMessageAsync($"3 Hours to Clan Boss reset!! {BruTeam.Mention} {NMTeam.Mention}");
+                    var g2 = client.GetChannel(521166881529397258) as ISocketMessageChannel;//g2 CB chan
+                    var g2NMTeam = client.GetGuild(514616202249895936).GetRole(614097750866526208);//g2
+                    var g2BruTeam = client.GetGuild(514616202249895936).GetRole(614098077141303319);//g2
+                    await g2.SendMessageAsync($"3 Hours to Clan Boss reset!! {g2BruTeam.Mention} {g2NMTeam.Mention}");
+
+                    var skaro= client.GetChannel(518334869667840000) as ISocketMessageChannel;//g2 CB chan
+                    var sNMTeam = client.GetGuild(514616202249895936).GetRole(614099127583768581);//g2
+                    var sBruTeam = client.GetGuild(514616202249895936).GetRole(614099242075553805);//g2
+                    await skaro.SendMessageAsync($"3 Hours to Clan Boss reset!! {sNMTeam.Mention} {sBruTeam.Mention}");
+
+                    var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
+                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
+                    var dBruTeam = client.GetGuild(514616202249895936).GetRole(614099709375807508);//g2
+                    await daleks.SendMessageAsync($"3 Hours to Clan Boss reset!! {dNMTeam.Mention} {dBruTeam.Mention}");
+
+                    var headless = client.GetChannel(552884924571713566) as ISocketMessageChannel;//g2 CB chan
+                    var hNMTeam = client.GetGuild(514616202249895936).GetRole(614098743326933024);//g2
+                    var hBruTeam = client.GetGuild(514616202249895936).GetRole(614098324160643082);//g2
+                    await headless.SendMessageAsync($"3 Hours to Clan Boss reset!! {hNMTeam.Mention} {hBruTeam.Mention}");
+
+                    var arcadian = client.GetChannel(579711482653048852) as ISocketMessageChannel;//g2 CB chan
+                    var aNMTeam = client.GetGuild(514616202249895936).GetRole(614098995731759125);//g2
+                    var aBruTeam = client.GetGuild(514616202249895936).GetRole(614098870615670795);//g2
+                    await arcadian.SendMessageAsync($"3 Hours to Clan Boss reset!! {aNMTeam.Mention} {aBruTeam.Mention}");
+                }
+                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(6, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(6, 1, 0))
+                {
+                    var g1 = client.GetChannel(518332157731799043) as ISocketMessageChannel;
+                    var g1NMTeam = client.GetGuild(514616202249895936).GetRole(614102098593972271);
+                    var g1UNMTeam = client.GetGuild(514616202249895936).GetRole(614102098346377236);
+                    await g1.SendMessageAsync($"3 Hours to Clan Boss reset!! {g1UNMTeam.Mention} {g1NMTeam.Mention}");
+
+                    var faceless = client.GetChannel(532758210906423296) as ISocketMessageChannel;
+                    var fNMTeam = client.GetGuild(514616202249895936).GetRole(614098420323319809);
+                    var fBruTeam = client.GetGuild(514616202249895936).GetRole(614098324093534236);
+                    await faceless.SendMessageAsync($"3 Hours to Clan Boss reset!! {fNMTeam.Mention} {fBruTeam.Mention}");
                 }
             }
             catch (Exception err)
