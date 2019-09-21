@@ -65,7 +65,7 @@ namespace Raid_SL_Bot
                     var aBruTeam = client.GetGuild(514616202249895936).GetRole(614098870615670795);//g2
                     await arcadian.SendMessageAsync($"3 Hours to Clan Boss reset!! {aNMTeam.Mention} {aBruTeam.Mention}");
                 }
-                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(6, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(6, 1, 0))
+                else if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(6, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(6, 1, 0))
                 {
                     var g1 = client.GetChannel(518332157731799043) as ISocketMessageChannel;
                     var g1NMTeam = client.GetGuild(514616202249895936).GetRole(614102098593972271);
@@ -153,7 +153,7 @@ namespace Raid_SL_Bot
             {
                 if (result.Error == CommandError.UnknownCommand) return;
                 Console.WriteLine(result.ToString());
-                await msg.Channel.SendMessageAsync("Sorry that didn't work, @Orcinus get in here!");
+                await msg.Channel.SendMessageAsync($"Sorry that didn't work, {client.GetUser(269643701888745474).Mention} get in here!");
             }
         }
     }
