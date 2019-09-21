@@ -761,7 +761,7 @@ namespace GCB
             {
                 champString += $" **{champ}** |";
             }
-            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
+            await ReplyAsync($"Here is a list of champions with builds currently with ~{champs.Count} champions:\n|{champString}");
         }
 
         [Command("instances", RunMode = RunMode.Async)]
@@ -783,7 +783,7 @@ namespace GCB
             {
                 champString += $" **{instance}** |";
             }
-            await ReplyAsync($"Here is a list of champions with builds currently:\n|{champString}");
+            await ReplyAsync($"Here is a list of instances with builds currently ~{instances.Count}:\n|{champString}");
         }
         [Command("get", RunMode = RunMode.Async)]
         public async Task GetBuild([Remainder]string championName = "")
