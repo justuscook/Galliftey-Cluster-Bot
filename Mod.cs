@@ -73,7 +73,7 @@ namespace GCB
             await Context.Client.SetActivityAsync(new Game(text, type));
         }
         [Command("say", RunMode = RunMode.Async)]
-        public async Task TalkAsBot(ISocketMessageChannel channel, string text)
+        public async Task TalkAsBot(ISocketMessageChannel channel, [Remainder]string text)
         {
             var roles = (Context.Message.Author as SocketGuildUser).Roles;
             if (roles.Contains(Context.Guild.GetRole(514619966125768705)))

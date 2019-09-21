@@ -153,7 +153,7 @@ namespace Raid_SL_Bot
             {
                 if (result.Error == CommandError.UnknownCommand) return;
                 Console.WriteLine(result.ToString());
-                await msg.Channel.SendMessageAsync($"Sorry that didn't work, {client.GetUser(269643701888745474).Mention} get in here!");
+                await msg.Channel.SendMessageAsync($"Sorry that didn't work, {client.GetUser(269643701888745474).Mention} get in here!\n`{result.ErrorReason}`");
             }
         }
     }
