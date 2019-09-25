@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Discord.Addons.Interactive;
 using System.Timers;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Raid_SL_Bot
 {
@@ -28,11 +29,14 @@ namespace Raid_SL_Bot
         private CommandService commands;
         private IServiceProvider services;
         public Timer timer = new Timer();
-
+        public class AllowedChannels
+        {
+            public List<ulong> Allowed { get; set; }
+        }
         public async Task DeleteOldBotMessages(ISocketMessageChannel chan, int getOld)
         {
             List<IMessage> messages = (List<IMessage>)chan.GetMessagesAsync(getOld);
-            foreach(var m in messages)
+            foreach (var m in messages)
             {
                 if (m.Author.IsBot) await m.DeleteAsync();
             }
@@ -48,14 +52,14 @@ namespace Raid_SL_Bot
             {
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
                 {
-                    
+
                     var g2 = client.GetChannel(521166881529397258) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(g2, 25);
                     var g2NMTeam = client.GetGuild(514616202249895936).GetRole(614097750866526208);//g2
                     var g2BruTeam = client.GetGuild(514616202249895936).GetRole(614098077141303319);//g2
                     await g2.SendMessageAsync($"3 Hours to Clan Boss reset!! {g2BruTeam.Mention} {g2NMTeam.Mention}");
 
-                    var skaro= client.GetChannel(518334869667840000) as ISocketMessageChannel;//g2 CB chan
+                    var skaro = client.GetChannel(518334869667840000) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(skaro, 25);
                     var sNMTeam = client.GetGuild(514616202249895936).GetRole(614099127583768581);//g2
                     var sBruTeam = client.GetGuild(514616202249895936).GetRole(614099242075553805);//g2
@@ -143,7 +147,10 @@ namespace Raid_SL_Bot
         }
         public bool IsThisChannelAllowed(SocketMessage m)
         {
-            if (m.Channel.Id == 577869684813201438 || m.Channel.Id == 581431959457366016 || m.Channel.Id == 619630134210854925 || m.Channel.Id == 620344940852936714 || m.Channel.Id == 622406661708972042) return true;
+            var jsonStr = File.ReadAllText("allowedChannels.json");//change this to config.json to build bot, has prefix and bot token to connect to discord
+            var allowed = JsonConvert.DeserializeObject<AllowedChannels>(jsonStr);
+            //if (m.Channel.Id == 577869684813201438 || m.Channel.Id == 581431959457366016 || m.Channel.Id == 619630134210854925 || m.Channel.Id == 620344940852936714 || m.Channel.Id == 622406661708972042) return true;
+            if (allowed.Allowed.Contains(m.Channel.Id)) return true;
             else return false;
         }
         public async Task HandleCommandAsync(SocketMessage m)
