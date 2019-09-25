@@ -15,6 +15,7 @@ using System.Net.Http;
 using Discord.Addons.Interactive;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static Raid_SL_Bot.Program;
 
 namespace GCB
 {
@@ -81,7 +82,7 @@ namespace GCB
                 await channel.SendMessageAsync($"{text}");
             }
             else return;
-        }
+        }/*
         [Command("lobby", RunMode = RunMode.Async)]
         public async Task TalkAsBotInLobby([Remainder]string text = null)
         {
@@ -91,6 +92,31 @@ namespace GCB
                 await Context.Guild.GetTextChannel(515092679164428289).SendMessageAsync($"{text}");
             }
             else return;
+        }*/
+        [Command("addChannel", RunMode = RunMode.Async)]
+        public async Task AddAlloweedChannel(ISocketMessageChannel channel)
+        {
+            var roles = (Context.Message.Author as SocketGuildUser).Roles;
+            if (roles.Contains(Context.Guild.GetRole(514619966125768705)))
+            {
+                var filePath = "allowedChannels.json";
+                var jsonData = File.ReadAllText(filePath);
+                var allowed = JsonConvert.DeserializeObject<AllowedChannels>(jsonData);
+                if (allowed.Allowed.Contains(channel.Id))
+                {
+                    await ReplyAndDeleteAsync("That channel is already allowed.");
+                    return;
+                }
+                else
+                {
+                    allowed.Allowed.Add(channel.Id);
+                    jsonData = JsonConvert.SerializeObject(allowed);
+                    File.WriteAllText(filePath, jsonData);
+                    await ReplyAndDeleteAsync($"{channel.Name} added to the list of allowed channels.");
+                }
+            }
+            else return;
+
         }
     }
 
