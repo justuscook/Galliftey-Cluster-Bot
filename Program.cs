@@ -134,7 +134,7 @@ namespace Raid_SL_Bot
             //bot code that kinda make sense to me lol
             services = new ServiceCollection()
                 .AddSingleton(client)
-                .AddSingleton(new InteractiveService(client))
+                .AddSingleton(new InteractiveService(client,TimeSpan.FromMinutes(10)))
                 .BuildServiceProvider();
 
             commands = new CommandService();
