@@ -793,7 +793,7 @@ namespace GCB
                 var filePath = "builds.json";
                 var jsonData = File.ReadAllText(filePath);
                 var buildList = JsonConvert.DeserializeObject<List<ChampionBuild>>(jsonData);
-                var championBuilds = buildList.Where(x => x.name.ToLower() == championName.ToLower()).OrderBy(x => x.name);
+                var championBuilds = buildList.FindAll(x => x.name.ToLower().Contains(championName.ToLower()));
                 var pages = new List<PaginatedMessage.Page>();
                 foreach (var build in championBuilds)
                 {
