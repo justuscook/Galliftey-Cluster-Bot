@@ -26,7 +26,7 @@ namespace GCB
                 if (command.Module.Name != "Mod" || roles.Contains(Context.Guild.GetRole(514619966125768705)))
                 commandList += $" **{command.Name}** |";
             }
-            await ReplyAsync($"Here is a list of commmands: {commandList}");
+            await ReplyAsync($"Here is a list of commands: {commandList}");
         }
     }
 
