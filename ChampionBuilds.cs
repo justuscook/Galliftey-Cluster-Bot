@@ -136,58 +136,58 @@ namespace GCB
                     await ReplyAndDeleteAsync("Puny mortal you are not worthy of submitting builds!", timeout: TimeSpan.FromSeconds(10));
                     return;
                 }
-                await ReplyAsync("How many images do you have for this build?");
+                await ReplyAndDeleteAsync("How many images do you have for this build?");
                 var exitStrings = new List<string> { "exit", "cancel", "keep" };
                 var numberOfImages = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                 if (exitStrings.Contains(numberOfImages.Content.ToLower()) || numberOfImages == null)
                 {
-                    await ReplyAsync("Submission canceled.");
+                    await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromHours(1));
                     return;
                 }
                 else if (numberOfImages.Content == "3")
                 {
                     var champion = new ChampionBuild();
-                    await ReplyAsync("Champion name?");
+                    await ReplyAndDeleteAsync("Champion name?, timeout: TimeSpan.FromHours(1)");
                     var name = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(name.Content.ToLower()) || name == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromHours(1));
                         if (name.Content.ToLower() == "exit" || name.Content == null) return;
                     }
 
-                    await ReplyAsync("Instance?");
+                    await ReplyAndDeleteAsync("Instance?", timeout: TimeSpan.FromHours(1));
                     var instance = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(instance.Content.ToLower()) || instance == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromHours(1));
                         if (instance.Content.ToLower() == "exit" || instance.Content == null) return;
                     }
-                    await ReplyAsync("Gear image?");
+                    await ReplyAndDeleteAsync("Gear image?", timeout: TimeSpan.FromHours(1));
                     var gear = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(gear.Content.ToLower()) || gear == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (gear.Content.ToLower() == "exit" || gear.Content == null) return;
                     }
-                    await ReplyAsync("Stats image?");
+                    await ReplyAndDeleteAsync("Stats image?");
                     var stats = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(stats.Content.ToLower()) || stats == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (stats.Content.ToLower() == "exit" || stats.Content == null) return;
                     }
-                    await ReplyAsync("Masteries image?");
+                    await ReplyAndDeleteAsync("Masteries image?");
                     var mastieries = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(mastieries.Content.ToLower()) || mastieries == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                     }
-                    await ReplyAsync("Build notes?");
+                    await ReplyAndDeleteAsync("Build notes?");
                     var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (note.Content.ToLower() == "exit" || note.Content == null) return;
                     }
                     IUserMessage buildImage;
@@ -214,7 +214,7 @@ namespace GCB
 
                         image.Mutate(x => x.DrawImage(statsImage, new Point(0, gearImage.Height), 1));
                         image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, gearImage.Height * 2), 1));
-                        await ReplyAsync("Thanks for the build!");
+                        await ReplyAndDeleteAsync("Thanks for the build!");
                         champion.name = name.Content;
                         champion.instance = instance.Content;
                         champion.authorID = Context.Message.Author.Id;
@@ -231,7 +231,7 @@ namespace GCB
                         embed.AddField("Created by:", Context.Client.GetUser(champion.authorID).Username);
                         embed.AddField("Build notes:", champion.note);
                         embed.AddField("GUID:", champion.guid);
-                        buildImage = await ReplyAsync("", false, embed.Build());
+                        buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
                         champion.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         champion.gearImage = gearUrl;
                         champion.masteryImage = mastUrl;
@@ -248,39 +248,39 @@ namespace GCB
                 else if (numberOfImages.Content == "2")
                 {
                     var champion = new ChampionBuild();
-                    await ReplyAsync("Champion name?");
+                    await ReplyAndDeleteAsync("Champion name?");
                     var name = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(name.Content.ToLower()) || name == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (name.Content.ToLower() == "exit" || name.Content == null) return;
                     }
-                    await ReplyAsync("Instance?");
+                    await ReplyAndDeleteAsync("Instance?");
                     var instance = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(instance.Content.ToLower()) || instance == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (instance.Content.ToLower() == "exit" || instance.Content == null) return;
                     }
-                    await ReplyAsync("Gear/Stats image?");
+                    await ReplyAndDeleteAsync("Gear/Stats image?");
                     var stats = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(stats.Content.ToLower()) || stats == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (stats.Content.ToLower() == "exit" || stats.Content == null) return;
                     }
-                    await ReplyAsync("Masteries image?");
+                    await ReplyAndDeleteAsync("Masteries image?");
                     var mastieries = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(mastieries.Content.ToLower()) || mastieries == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                     }
-                    await ReplyAsync("Build notes?");
+                    await ReplyAndDeleteAsync("Build notes?");
                     var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         if (note.Content.ToLower() == "exit" || note.Content == null) return;
                     }
                     IUserMessage buildImage;
@@ -300,7 +300,7 @@ namespace GCB
                         image.Mutate(x => x.Resize(800, statsGearIage.Height + masteriesImage.Height));
                         image.Mutate(x => x.DrawImage(statsGearIage, new Point(0, 0), 1));
                         image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, statsGearIage.Height), 1));
-                        await ReplyAsync("Thanks for the build!");
+                        await ReplyAndDeleteAsync("Thanks for the build!");
                         champion.name = name.Content;
                         champion.instance = instance.Content;
                         champion.authorID = Context.Message.Author.Id;
@@ -317,7 +317,7 @@ namespace GCB
                         embed.AddField("Created by:", Context.Client.GetUser(champion.authorID).Username);
                         embed.AddField("Build notes:", champion.note);
                         embed.AddField("GUID:", champion.guid);
-                        buildImage = await ReplyAsync("", false, embed.Build());
+                        buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
                         champion.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         champion.gearImage = statsurl;
                         champion.masteryImage = masteriesUrl;
@@ -334,7 +334,7 @@ namespace GCB
 
                 else
                 {
-                    await ReplyAsync("Please respond with 2 or 3, so I know how images you have.  Try again.");
+                    await ReplyAndDeleteAsync("Please respond with 2 or 3, so I know how images you have.  Try again.");
                 }
 
             }
@@ -367,62 +367,62 @@ namespace GCB
 
                     if (build.authorID != Context.User.Id && !roles.Contains(Context.Guild.GetRole(514619966125768705)))
                     {
-                        await ReplyAsync("You can only edit your own builds.");
+                        await ReplyAndDeleteAsync("You can only edit your own builds.");
                         return;
                     }
                     editBuildList.Remove(build);
-                    await ReplyAsync("The previous info will be displayed, to keep it unchanged type `keep`.");
-                    await ReplyAsync("How many images do you have for this build?");
+                    await ReplyAndDeleteAsync("The previous info will be displayed, to keep it unchanged type `keep`.");
+                    await ReplyAndDeleteAsync("How many images do you have for this build?");
                     var exitStrings = new List<string> { "exit", "cancel" };
                     var numberOfImages = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(numberOfImages.Content.ToLower()) || numberOfImages == null)
                     {
-                        await ReplyAsync("Submission canceled.");
+                        await ReplyAndDeleteAsync("Submission canceled.");
                         return;
                     }
                     else if (numberOfImages.Content == "3")
                     {
                         //var champion = new ChampionBuild();
-                        await ReplyAsync($"Champion name? Currently: *{build.name}*");
+                        await ReplyAndDeleteAsync($"Champion name? Currently: *{build.name}*");
                         var name = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(name.Content.ToLower()) || name == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (name.Content.ToLower() == "exit" || name.Content == null) return;
                         }
-                        await ReplyAsync($"Instance? Currently: *{build.instance}*");
+                        await ReplyAndDeleteAsync($"Instance? Currently: *{build.instance}*");
                         var instance = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(instance.Content.ToLower()) || instance == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (instance.Content.ToLower() == "exit" || instance.Content == null) return;
                         }
-                        await ReplyAsync($"Gear image? Currently: {build.gearImage ?? "NULL"}");
+                        await ReplyAndDeleteAsync($"Gear image? Currently: {build.gearImage ?? "NULL"}");
                         var gear = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(gear.Content.ToLower()) || gear == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (gear.Content.ToLower() == "exit" || gear.Content == null) return;
                         }
-                        await ReplyAsync($"Stats image? Currently: {build.statsImage ?? "NULL"}");
+                        await ReplyAndDeleteAsync($"Stats image? Currently: {build.statsImage ?? "NULL"}");
                         var stats = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(stats.Content.ToLower()) || stats == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (stats.Content.ToLower() == "exit" || stats.Content == null) return;
                         }
-                        await ReplyAsync($"Masteries image? Currently: {build.masteryImage ?? "NULL"}");
+                        await ReplyAndDeleteAsync($"Masteries image? Currently: {build.masteryImage ?? "NULL"}");
                         var mastieries = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(mastieries.Content.ToLower()) || mastieries == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                         }
-                        await ReplyAsync($"Build notes? Currently: {build.note}");
+                        await ReplyAndDeleteAsync($"Build notes? Currently: {build.note}");
                         var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (note.Content.ToLower() == "exit" || note.Content == null) return;
                         }
                         IUserMessage buildImage;
@@ -448,7 +448,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(gearImage, new Point(0, 0), 1));
                             image.Mutate(x => x.DrawImage(statsImage, new Point(0, gearImage.Height), 1));
                             image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, gearImage.Height + statsImage.Height), 1));
-                            await ReplyAsync("Thanks for the build!");
+                            await ReplyAndDeleteAsync("Thanks for the build!");
                             if (name.Content != "keep") build.name = name.Content;
                             if (instance.Content != "keep") build.instance = instance.Content;
                             build.authorID = Context.Message.Author.Id;
@@ -465,7 +465,7 @@ namespace GCB
                             embed.AddField("Created by:", Context.Client.GetUser(build.authorID).Username);
                             embed.AddField("Build notes:", build.note);
                             embed.AddField("GUID: ", build.guid);
-                            buildImage = await ReplyAsync("", false, embed.Build());
+                            buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         /*var editFilePath = "builds.json";
@@ -478,39 +478,39 @@ namespace GCB
                     }
                     else if (numberOfImages.Content == "2")
                     {
-                        await ReplyAsync($"Champion name? Currently: {build.name}");
+                        await ReplyAndDeleteAsync($"Champion name? Currently: {build.name}");
                         var name = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(name.Content.ToLower()) || name == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (name.Content.ToLower() == "exit" || name.Content == null) return;
                         }
-                        await ReplyAsync($"Instance? Currently: {build.instance}");
+                        await ReplyAndDeleteAsync($"Instance? Currently: {build.instance}");
                         var instance = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(instance.Content.ToLower()) || instance == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (instance.Content.ToLower() == "exit" || instance.Content == null) return;
                         }
-                        await ReplyAsync($"Gear/Stats image? Currently: {build.statsImage ?? "NULL"}");
+                        await ReplyAndDeleteAsync($"Gear/Stats image? Currently: {build.statsImage ?? "NULL"}");
                         var stats = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(stats.Content.ToLower()) || stats == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (stats.Content.ToLower() == "exit" || stats.Content == null) return;
                         }
-                        await ReplyAsync($"Masteries image? Currently: {build.masteryImage ?? "NULL"}");
+                        await ReplyAndDeleteAsync($"Masteries image? Currently: {build.masteryImage ?? "NULL"}");
                         var mastieries = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(mastieries.Content.ToLower()) || mastieries == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                         }
-                        await ReplyAsync($"Build notes? Currently: {build.note}");
+                        await ReplyAndDeleteAsync($"Build notes? Currently: {build.note}");
                         var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                         if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                         {
-                            await ReplyAsync("Submission canceled.");
+                            await ReplyAndDeleteAsync("Submission canceled.");
                             if (note.Content.ToLower() == "exit" || note.Content == null) return;
                         }
                         IUserMessage buildImage;
@@ -558,7 +558,7 @@ namespace GCB
                                 image.Mutate(x => x.Resize(800, statsGearIage.Height + masteriesImage.Height));
                                 image.Mutate(x => x.DrawImage(statsGearIage, new Point(0, 0), 1));
                                 image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, statsGearIage.Height), 1));
-                                await ReplyAsync("Thanks for the build!");
+                                await ReplyAndDeleteAsync("Thanks for the build!");
                                 if (name.Content.ToLower() != "keep") build.name = name.Content;
                                 if (instance.Content.ToLower() != "keep") build.instance = instance.Content;
                                 build.authorID = Context.Message.Author.Id;
@@ -578,7 +578,7 @@ namespace GCB
                             embed.AddField("Created by:", Context.Client.GetUser(build.authorID).Username);
                             embed.AddField("Build notes:", build.note);
                             embed.AddField("GUID: ", build.guid);
-                            buildImage = await ReplyAsync("", false, embed.Build());
+                            buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         editBuildList.Add(build);
@@ -588,7 +588,7 @@ namespace GCB
 
                     else
                     {
-                        await ReplyAsync("Please respond with 2 or 3, so I know how images you have.  Try again.");
+                        await ReplyAndDeleteAsync("Please respond with 2 or 3, so I know how images you have.  Try again.");
                     }
 
                 }
@@ -602,30 +602,30 @@ namespace GCB
                     var roles = (Context.Message.Author as SocketGuildUser).Roles;
                     if (build.authorID != Context.User.Id && !roles.Contains(Context.Guild.GetRole(514619966125768705)))
                     {
-                        await ReplyAsync("You can only edit your own builds.");
+                        await ReplyAndDeleteAsync("You can only edit your own builds.");
                         return;
                     }
                     editBuildList.Remove(build);
-                    await ReplyAsync("What do you want the new value to be?");
+                    await ReplyAndDeleteAsync("What do you want the new value to be?");
                     var input = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     switch (part.ToLower())
                     {
                         case "name":
-                            await ReplyAsync($"The name for your build has been updated {build.name}>>>{input}");
+                            await ReplyAndDeleteAsync($"The name for your build has been updated {build.name}>>>{input}");
                             build.name = input.Content;
                             editBuildList.Add(build);
                             editJsonData = JsonConvert.SerializeObject(editBuildList);
                             File.WriteAllText(editFilePath, editJsonData);
                             return;
                         case "instance":
-                            await ReplyAsync($"The name for your build has been updated {build.instance}>>>{input}");
+                            await ReplyAndDeleteAsync($"The name for your build has been updated {build.instance}>>>{input}");
                             build.instance = input.Content;
                             editBuildList.Add(build);
                             editJsonData = JsonConvert.SerializeObject(editBuildList);
                             File.WriteAllText(editFilePath, editJsonData);
                             return;
                         case "notes":
-                            await ReplyAsync($"The name for your build has been updated {build.note}>>>{input}");
+                            await ReplyAndDeleteAsync($"The name for your build has been updated {build.note}>>>{input}");
                             build.note = input.Content;
                             editBuildList.Add(build);
                             editJsonData = JsonConvert.SerializeObject(editBuildList);
@@ -682,7 +682,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height + masteryImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
-                            var buildImage = await ReplyAsync("", false, embed.Build());
+                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         else
@@ -692,7 +692,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
-                            var buildImage = await ReplyAsync("", false, embed.Build());
+                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                     }
@@ -727,14 +727,14 @@ namespace GCB
 
                 if (build.authorID != Context.User.Id)
                 {
-                    await ReplyAsync("You can only remove your own builds.");
+                    await ReplyAndDeleteAsync("You can only remove your own builds.");
                     return;
                 }
 
                 editBuildList.Remove(build);
                 editJsonData = JsonConvert.SerializeObject(editBuildList);
                 File.WriteAllText(editFilePath, editJsonData);
-                await ReplyAsync($"Your build for `{build.name}` with GUID#`{build.guid}` has been removed.");
+                await ReplyAndDeleteAsync($"Your build for `{build.name}` with GUID#`{build.guid}` has been removed.");
             }
             catch (Exception e)
             {
@@ -761,7 +761,7 @@ namespace GCB
             {
                 champString += $" **{champ}** |";
             }
-            await ReplyAsync($"Here is a list of champions with builds currently with ~{champs.Count} champions:\n|{champString}");
+            await ReplyAndDeleteAsync($"Here is a list of champions with builds currently with ~{champs.Count} champions:\n|{champString}");
         }
 
         [Command("instances", RunMode = RunMode.Async)]
@@ -783,7 +783,7 @@ namespace GCB
             {
                 champString += $" **{instance}** |";
             }
-            await ReplyAsync($"Here is a list of instances with builds currently ~{instances.Count}:\n|{champString}");
+            await ReplyAndDeleteAsync($"Here is a list of instances with builds currently ~{instances.Count}:\n|{champString}");
         }
         [Command("get", RunMode = RunMode.Async)]
         public async Task GetBuild([Remainder]string championName = "")
