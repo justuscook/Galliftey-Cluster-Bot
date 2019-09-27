@@ -593,12 +593,7 @@ namespace GCB
 
                     else
                     {
-                        var ran = new Random();
-                        var eEmbed = new EmbedBuilder();
-                        eEmbed.WithFooter(e.Message);
-                        eEmbed.Title = "Whoopsy...";
-                        eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "*sigh*, what did you do wrong this time...*");
-                        await ReplyAndDeleteAsync("", embed: eEmbed.Build());
+                        await ReplyAndDeleteAsync("Please respond with 2 or 3, so I know how images you have.  Try again.");
                     }
 
                 }
@@ -656,7 +651,7 @@ namespace GCB
                             break;
                     }
                     int images = 0;
-                    Image<Rgba32> statsImage = new Image<Rgba32>(1,1);
+                    Image<Rgba32> statsImage = new Image<Rgba32>(1, 1);
                     Image<Rgba32> masteryImage = new Image<Rgba32>(1, 1);
                     Image<Rgba32> gearImage = new Image<Rgba32>(1, 1);
 
@@ -684,7 +679,7 @@ namespace GCB
                     using (Image<Rgba32> image = new Image<Rgba32>(1, 1))
                     {
 
-                        if(images > 2)
+                        if (images > 2)
                         {
                             image.Mutate(x => x.Resize(800, (gearImage.Height + masteryImage.Height + statsImage.Height)));
                             image.Mutate(x => x.DrawImage(statsImage, new Point(0, 0), 1));
@@ -868,8 +863,8 @@ namespace GCB
                 var eEmbed = new EmbedBuilder();
                 eEmbed.WithFooter(e.Message);
                 eEmbed.Title = "Whoopsy...";
-                eEmbed.AddField($"Error {ran.Next(10000,99999)}:","I Couldn't find a champion with that name, you do know how to spel don't u humen?");
-                await ReplyAndDeleteAsync("",embed: eEmbed.Build());
+                eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "I Couldn't find a champion with that name, you do know how to spel don't u humen?");
+                await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
         }
 
@@ -941,7 +936,7 @@ namespace GCB
                 eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "I Couldn't find a instance with that name,  lern 2 spel :facepalm:?");
                 await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
-        }        
+        }
     }
 }
 
