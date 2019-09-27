@@ -25,6 +25,7 @@ namespace Raid_SL_Bot
                 LogLevel = LogSeverity.Debug,
                 MessageCacheSize = 1000,
                 AlwaysDownloadUsers = true,
+                ExclusiveBulkDelete = false
             });
         private CommandService commands;
         private IServiceProvider services;
