@@ -119,16 +119,37 @@ namespace GCB
 
         }
         [Command("clean",RunMode = RunMode.Async)]
-        public async Task Delete25Messages()
+        public async Task Delete25Messages(ISocketMessageChannel chan)
         {
-            var messages = await Context.Channel.GetMessagesAsync(25).FlattenAsync();
-            List<IMessage> toDelete = new List<IMessage>();
-            foreach(var message in messages)
+            try
             {
-                if (message.Author.IsBot) toDelete.Add(message);
+                if (chan == null)
+                {
+                    var messages = await Context.Channel.GetMessagesAsync(25).FlattenAsync();
+                    List<IMessage> toDelete = new List<IMessage>();
+                    foreach (var message in messages)
+                    {
+                        if (message.Author.IsBot) toDelete.Add(message);
+                    }
+                    await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(toDelete);
+                }
+                else
+                {
+                    var messages = await chan.GetMessagesAsync(25).FlattenAsync();
+                    List<IMessage> toDelete = new List<IMessage>();
+                    foreach (var message in messages)
+                    {
+                        if (message.Author.IsBot) toDelete.Add(message);
+                    }
+                    await (chan as SocketTextChannel).DeleteMessagesAsync(toDelete);
+                }
             }
-            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(toDelete);
-
+            catch(Exception e)
+            {
+                await ReplyAsync($"{Context.Guild.GetUser(269643701888745474).Mention} I broke the broom..\n{e.Message}");
+                return;
+            }
+            await ReplyAndDeleteAsync("Sweep, sweep, I cleanded up some of my messages :recycle:");
         }
     }
 
