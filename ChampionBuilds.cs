@@ -340,7 +340,12 @@ namespace GCB
             }
             catch (Exception e)
             {
-                await ReplyAsync($"{Context.Client.GetUser(269643701888745474).Mention} get in here please, in your haste to finish me you didn't account for this...\n{e.Message}");
+                var ran = new Random();
+                var eEmbed = new EmbedBuilder();
+                eEmbed.WithFooter(e.Message);
+                eEmbed.Title = "Whoopsy...";
+                eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "*sigh*, what did you do wrong this time...*");
+                await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
             //messageList.ForEach(x => x.DeleteAsync());
         }
@@ -588,7 +593,12 @@ namespace GCB
 
                     else
                     {
-                        await ReplyAndDeleteAsync("Please respond with 2 or 3, so I know how images you have.  Try again.");
+                        var ran = new Random();
+                        var eEmbed = new EmbedBuilder();
+                        eEmbed.WithFooter(e.Message);
+                        eEmbed.Title = "Whoopsy...";
+                        eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "*sigh*, what did you do wrong this time...*");
+                        await ReplyAndDeleteAsync("", embed: eEmbed.Build());
                     }
 
                 }
@@ -703,7 +713,12 @@ namespace GCB
             }
             catch (Exception e)
             {
-                await ReplyAsync($"{Context.Client.GetUser(269643701888745474).Mention} get in here please, in your haste to finish me you didn't account for this...\n{e.Message}");
+                var ran = new Random();
+                var eEmbed = new EmbedBuilder();
+                eEmbed.WithFooter(e.Message);
+                eEmbed.Title = "Whoopsy...";
+                eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "*sigh*, what did you do wrong this time...*");
+                await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
             //messageList.ForEach(x => x.DeleteAsync());
         }
@@ -738,7 +753,12 @@ namespace GCB
             }
             catch (Exception e)
             {
-                await ReplyAsync($"{Context.Client.GetUser(269643701888745474).Mention} get in here please, in your haste to finish me you didn't account for this...\n{e.Message}");
+                var ran = new Random();
+                var eEmbed = new EmbedBuilder();
+                eEmbed.WithFooter(e.Message);
+                eEmbed.Title = "Whoopsy...";
+                eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "*sigh*, I mean this is like the easiest command bro...*");
+                await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
         }
 
@@ -844,7 +864,12 @@ namespace GCB
             }
             catch (Exception e)
             {
-                await ReplyAsync($"{Context.Client.GetUser(269643701888745474).Mention} get in here please, in your haste to finish me you didn't account for this...\n{e.Message}");
+                var ran = new Random();
+                var eEmbed = new EmbedBuilder();
+                eEmbed.WithFooter(e.Message);
+                eEmbed.Title = "Whoopsy...";
+                eEmbed.AddField($"Error {ran.Next(10000,99999)}:","I Couldn't find a champion with that name, you do know how to spel don't u humen?");
+                await ReplyAndDeleteAsync("",embed: eEmbed.Build());
             }
         }
 
@@ -909,7 +934,12 @@ namespace GCB
             }
             catch (Exception e)
             {
-                await ReplyAsync($"{Context.Client.GetUser(269643701888745474).Mention} get in here please, in your haste to finish me you didn't account for this...\n{e.Message}");
+                var ran = new Random();
+                var eEmbed = new EmbedBuilder();
+                eEmbed.WithFooter(e.Message);
+                eEmbed.Title = "Whoopsy...";
+                eEmbed.AddField($"Error {ran.Next(10000, 99999)}:", "I Couldn't find a instance with that name,  lern 2 spel :facepalm:?");
+                await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
         }        
     }
