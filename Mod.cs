@@ -118,6 +118,18 @@ namespace GCB
             else return;
 
         }
+        [Command("clean",RunMode = RunMode.Async)]
+        public async Task Delete25Messages()
+        {
+            var messages = await Context.Channel.GetMessagesAsync(25).FlattenAsync();
+            List<IMessage> toDelete = new List<IMessage>();
+            foreach(var message in messages)
+            {
+                if (message.Author.IsBot) toDelete.Add(message);
+            }
+            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(toDelete);
+
+        }
     }
 
 }

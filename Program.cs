@@ -35,11 +35,19 @@ namespace Raid_SL_Bot
         }
         public async Task DeleteOldBotMessages(ISocketMessageChannel chan, int getOld)
         {
-            List<IMessage> messages = (List<IMessage>)chan.GetMessagesAsync(getOld);
+            /*List<IMessage> messages = (List<IMessage>)chan.GetMessagesAsync(getOld);
             foreach (var m in messages)
             {
                 if (m.Author.IsBot) await m.DeleteAsync();
+            }*/
+
+            var messages = await chan.GetMessagesAsync(25).FlattenAsync();
+            List<IMessage> toDelete = new List<IMessage>();
+            foreach (var message in messages)
+            {
+                if (message.Author.IsBot) toDelete.Add(message);
             }
+            await (chan as SocketTextChannel).DeleteMessagesAsync(toDelete);
         }
         public void AlarmClock()
         {
