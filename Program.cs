@@ -98,13 +98,13 @@ namespace Raid_SL_Bot
                     await DeleteOldBotMessages(g1, 25);
                     var g1NMTeam = client.GetGuild(514616202249895936).GetRole(614102098593972271);
                     var g1UNMTeam = client.GetGuild(514616202249895936).GetRole(614102098346377236);
-                    await g1.SendMessageAsync($"3 Hours to Clan Boss reset!! {g1UNMTeam.Mention} {g1NMTeam.Mention}");
+                    await g1.SendMessageAsync($"4 Hours to Clan Boss reset!! {g1UNMTeam.Mention} {g1NMTeam.Mention}");
 
                     var faceless = client.GetChannel(532758210906423296) as ISocketMessageChannel;
                     await DeleteOldBotMessages(faceless, 25);
                     var fNMTeam = client.GetGuild(514616202249895936).GetRole(614098420323319809);
                     var fBruTeam = client.GetGuild(514616202249895936).GetRole(614098324093534236);
-                    await faceless.SendMessageAsync($"3 Hours to Clan Boss reset!! {fNMTeam.Mention} {fBruTeam.Mention}");
+                    await faceless.SendMessageAsync($"4 Hours to Clan Boss reset!! {fNMTeam.Mention} {fBruTeam.Mention}");
                 }
             }
             catch (Exception err)
