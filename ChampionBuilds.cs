@@ -141,28 +141,28 @@ namespace GCB
                 var numberOfImages = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                 if (exitStrings.Contains(numberOfImages.Content.ToLower()) || numberOfImages == null)
                 {
-                    await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromHours(1));
+                    await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(60));
                     return;
                 }
                 else if (numberOfImages.Content == "3")
                 {
                     var champion = new ChampionBuild();
-                    await ReplyAndDeleteAsync("Champion name?, timeout: TimeSpan.FromHours(1)");
+                    await ReplyAndDeleteAsync("Champion name?", timeout: TimeSpan.FromMinutes(60));
                     var name = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(name.Content.ToLower()) || name == null)
                     {
-                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromHours(1));
+                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(60));
                         if (name.Content.ToLower() == "exit" || name.Content == null) return;
                     }
 
-                    await ReplyAndDeleteAsync("Instance?", timeout: TimeSpan.FromHours(1));
+                    await ReplyAndDeleteAsync("Instance?", timeout: TimeSpan.FromMinutes(60));
                     var instance = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(instance.Content.ToLower()) || instance == null)
                     {
-                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromHours(1));
+                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(60));
                         if (instance.Content.ToLower() == "exit" || instance.Content == null) return;
                     }
-                    await ReplyAndDeleteAsync("Gear image?", timeout: TimeSpan.FromHours(1));
+                    await ReplyAndDeleteAsync("Gear image?", timeout: TimeSpan.FromMinutes(60));
                     var gear = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(gear.Content.ToLower()) || gear == null)
                     {
@@ -231,7 +231,7 @@ namespace GCB
                         embed.AddField("Created by:", Context.Client.GetUser(champion.authorID).Username);
                         embed.AddField("Build notes:", champion.note);
                         embed.AddField("GUID:", champion.guid);
-                        buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
+                        buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
                         champion.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         champion.gearImage = gearUrl;
                         champion.masteryImage = mastUrl;
@@ -317,7 +317,7 @@ namespace GCB
                         embed.AddField("Created by:", Context.Client.GetUser(champion.authorID).Username);
                         embed.AddField("Build notes:", champion.note);
                         embed.AddField("GUID:", champion.guid);
-                        buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
+                        buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
                         champion.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         champion.gearImage = statsurl;
                         champion.masteryImage = masteriesUrl;
@@ -470,7 +470,7 @@ namespace GCB
                             embed.AddField("Created by:", Context.Client.GetUser(build.authorID).Username);
                             embed.AddField("Build notes:", build.note);
                             embed.AddField("GUID: ", build.guid);
-                            buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
+                            buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         /*var editFilePath = "builds.json";
@@ -583,7 +583,7 @@ namespace GCB
                             embed.AddField("Created by:", Context.Client.GetUser(build.authorID).Username);
                             embed.AddField("Build notes:", build.note);
                             embed.AddField("GUID: ", build.guid);
-                            buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
+                            buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         editBuildList.Add(build);
@@ -687,7 +687,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height + masteryImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
-                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
+                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         else
@@ -697,7 +697,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
-                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromHours(1));
+                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                     }
