@@ -333,14 +333,14 @@
     "Discord.Net.Webhook/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-D32Z9zZoPlJHft2SWI3mYPKxkPNcOW+K6rKDSnrtDWk0pkz/ABpSNdcwzkvD5aFxSV6H1JMvPchmvn0jFPWutg==",
+      "sha512": "sha512-7On5j4VDA5fw2IYsWO7B2E0GOOMdoATrdK3xdU6QclNGK+vfIU/GgU0zLKAdIonB6QtF5nz4kAQRaGhK78Uleg==",
       "path": "discord.net.webhook/2.1.1",
       "hashPath": "discord.net.webhook.2.1.1.nupkg.sha512"
     },
     "Discord.Net.WebSocket/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-48HWWddoxrZ6DvXoOM6LHdZUdH4mQq27TEVegtdYrw+3MhQ64g3q+sjjtalEg1Pnw6nsFby8m2jlFDQWzGJfvA==",
+      "sha512": "sha512-rrFWxXxa+r+OD6oW9eV2sLV+QxyanTpdQwmNCXL2uHvCvvByyoAzExEF4mL+S9e+A2hpBWn8jVKqYxRZoj6dqg==",
       "path": "discord.net.websocket/2.1.1",
       "hashPath": "discord.net.websocket.2.1.1.nupkg.sha512"
     },

@@ -848,6 +848,7 @@ namespace GCB
                 var pager = new PaginatedMessage
                 {
                     Pages = pages,
+                    Options = new PaginatedAppearanceOptions { Timeout = TimeSpan.FromHours(1) }
                 };
 
                 await PagedReplyAsync(pager, new ReactionList
@@ -918,6 +919,7 @@ namespace GCB
                 var pager = new PaginatedMessage
                 {
                     Pages = pages,
+                    Options = new PaginatedAppearanceOptions { Timeout = TimeSpan.FromHours(1) }
                 };
 
                 await PagedReplyAsync(pager, new ReactionList
