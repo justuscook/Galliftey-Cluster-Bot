@@ -141,28 +141,28 @@ namespace GCB
                 var numberOfImages = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                 if (exitStrings.Contains(numberOfImages.Content.ToLower()) || numberOfImages == null)
                 {
-                    await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(60));
+                    await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(10));
                     return;
                 }
                 else if (numberOfImages.Content == "3")
                 {
                     var champion = new ChampionBuild();
-                    await ReplyAndDeleteAsync("Champion name?", timeout: TimeSpan.FromMinutes(60));
+                    await ReplyAndDeleteAsync("Champion name?", timeout: TimeSpan.FromMinutes(10));
                     var name = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(name.Content.ToLower()) || name == null)
                     {
-                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(60));
+                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(10));
                         if (name.Content.ToLower() == "exit" || name.Content == null) return;
                     }
 
-                    await ReplyAndDeleteAsync("Instance?", timeout: TimeSpan.FromMinutes(60));
+                    await ReplyAndDeleteAsync("Instance?", timeout: TimeSpan.FromMinutes(10));
                     var instance = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(instance.Content.ToLower()) || instance == null)
                     {
-                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(60));
+                        await ReplyAndDeleteAsync("Submission canceled.", timeout: TimeSpan.FromMinutes(10));
                         if (instance.Content.ToLower() == "exit" || instance.Content == null) return;
                     }
-                    await ReplyAndDeleteAsync("Gear image?", timeout: TimeSpan.FromMinutes(60));
+                    await ReplyAndDeleteAsync("Gear image?", timeout: TimeSpan.FromMinutes(10));
                     var gear = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
                     if (exitStrings.Contains(gear.Content.ToLower()) || gear == null)
                     {
@@ -687,7 +687,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height + masteryImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
-                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
+                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(10));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                         else
@@ -697,7 +697,7 @@ namespace GCB
                             image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
-                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(60));
+                            var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(10));
                             build.allImages = buildImage.Embeds.FirstOrDefault().Image.Value.Url;
                         }
                     }
