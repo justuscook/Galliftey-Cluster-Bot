@@ -312,21 +312,21 @@
     "Discord.Net.Commands/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-mOscttcZMm1O5IlJ4HWtro9AwZ7JHurgEgXfbWSct3Gai7qGdMdbby+63q2olKvc8uj5PDiWeopSGM22AhoPBQ==",
+      "sha512": "sha512-FCSKLc2E74o9KEnNif/H1mg0sn3153AYMmNWAsQeFFSNgXmIuWJ2zOsi1VDrBNGiOe/1ChruHXHkb+RDoZp6+A==",
       "path": "discord.net.commands/2.1.1",
       "hashPath": "discord.net.commands.2.1.1.nupkg.sha512"
     },
     "Discord.Net.Core/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EN5aQG6kuWZ3/42Qtlqs4+IVSGEiZyXXi78ICc+Piu9AErDdHeUuzDZVyfpBhlKkUdMse8tb8wV/lrgEgyGM5A==",
+      "sha512": "sha512-dhWa/0ZN4vc6MeL9GwZZ93ew4+4kalNb9V6sgVB5WrTGkJjQVZU7X3nBad+YeHtYQ3hLi2kta4kpYSyXo6z2ZA==",
       "path": "discord.net.core/2.1.1",
       "hashPath": "discord.net.core.2.1.1.nupkg.sha512"
     },
     "Discord.Net.Rest/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-t+rBW5VHIc5/8b4hmCa8Kt1p/8EmeS2IPvFIPFCH+cmOEgp5tbBtmbgAHapsZK6UPQazKLfOpZMBrcQOOAfJNQ==",
+      "sha512": "sha512-AyP2VK095y5IlvISmmjqC5nZGsSRd530V9G6eedyA7hMhDv66XVU9mjOYvCiM+/1aFNJ8Xbwx2HVY/ZtTS4FMA==",
       "path": "discord.net.rest/2.1.1",
       "hashPath": "discord.net.rest.2.1.1.nupkg.sha512"
     },
