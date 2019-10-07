@@ -87,7 +87,7 @@ namespace GCB
                     var file = File.Create($"./images/{randomString}.png"); /*creates a file with the random string as the name*/
                     await outputStream.CopyToAsync(file);
                     file.Dispose();
-                    var chan = context.Client.GetChannel(619603622199689236) as IMessageChannel;
+                    var chan = context.Client.GetChannel(620344940852936714) as IMessageChannel;
                     imageUrl = await chan.SendFileAsync($"images/{randomString}.png"); /*sends the image we just created*/
                     embed.ImageUrl = imageUrl.Attachments.FirstOrDefault().Url;
                     File.Delete($"images/{randomString}.png"); /*deletes the image after sending*/
