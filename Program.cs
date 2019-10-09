@@ -30,6 +30,8 @@ namespace Raid_SL_Bot
         private CommandService commands;
         private IServiceProvider services;
         public Timer timer = new Timer();
+        public List<string> welcome = new List<string>() {"Ruff, Ruff, hello human, welcome!","Yay...another human clicked a link to ome here...welcome.", ":robot: :crossed_swords: :smiley: ", "The universe is big. It’s vast and complicated and ridiculous. And sometimes, very rarely, impossible things just happen and we call them miracles. - The doctor", "Rule 1: The Doctor lies", "You know, the very powerful and the very stupid have one thing in common: they don’t alter their views to fit the facts; they alter the facts to fit their views. - The Doctor",
+                                                            "There’s a lot of things you need to get across this universe. Warp drive… wormhole refractors… You know the thing you need most of all? You need a hand to hold - The Doctor","You want weapons? We’re in a library! Books! The best weapons in the world! - The Doctor", "Who let you in here?","Welcome human user.","Welcome to the TARDIS, Here lives Raid's Num... doesn't the doctor usully handle this...", "if(newUser.Joins) uselessHumanUsers += 1;","http://giphygifs.s3.amazonaws.com/media/e4vLe4S8w9hDi/giphy.gif \n WARNING: WE ARE UNDER ATTACK! Oh, its just another human."};
         public class AllowedChannels
         {
             public List<ulong> Allowed { get; set; }
@@ -150,6 +152,7 @@ namespace Raid_SL_Bot
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), services);
             //wehn bot sees a message do stuff
             client.MessageReceived += HandleCommandAsync;
+            client.UserJoined += UserJoinedWelcome;
             timer.Start();
             AlarmClock();
             await Task.Delay(-1);
@@ -161,6 +164,12 @@ namespace Raid_SL_Bot
             //if (m.Channel.Id == 577869684813201438 || m.Channel.Id == 581431959457366016 || m.Channel.Id == 619630134210854925 || m.Channel.Id == 620344940852936714 || m.Channel.Id == 622406661708972042) return true;
             if (allowed.Allowed.Contains(m.Channel.Id)) return true;
             else return false;
+        }
+        public async Task UserJoinedWelcome(SocketGuildUser u)
+        {
+            var rand = new Random();
+            var message = welcome[rand.Next(welcome.Count - 1)];
+            await (client.GetChannel(515092679164428289) as SocketTextChannel).SendMessageAsync($"{message}");
         }
         public async Task HandleCommandAsync(SocketMessage m)
         {
