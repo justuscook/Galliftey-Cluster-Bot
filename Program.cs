@@ -150,6 +150,7 @@ namespace Raid_SL_Bot
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), services);
             //wehn bot sees a message do stuff
             client.MessageReceived += HandleCommandAsync;
+            client.UserJoined += UserJoinedWelcome;
             timer.Start();
             AlarmClock();
             await Task.Delay(-1);
@@ -161,6 +162,10 @@ namespace Raid_SL_Bot
             //if (m.Channel.Id == 577869684813201438 || m.Channel.Id == 581431959457366016 || m.Channel.Id == 619630134210854925 || m.Channel.Id == 620344940852936714 || m.Channel.Id == 622406661708972042) return true;
             if (allowed.Allowed.Contains(m.Channel.Id)) return true;
             else return false;
+        }
+        public async Task UserJoinedWelcome(SocketGuildUser u)
+        {
+            await (client.GetChannel(515092679164428289) as SocketTextChannel).SendMessageAsync($"");
         }
         public async Task HandleCommandAsync(SocketMessage m)
         {
