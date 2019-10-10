@@ -6,15 +6,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Text.RegularExpressions;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Net.Http;
 using Discord.Addons.Interactive;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Tesseract;
 
 namespace GCB
 {
@@ -210,10 +208,10 @@ namespace GCB
                         var masteriesImage = await StartStreamAsync(url: mastieries.Content ?? mastieries.Attachments.FirstOrDefault().Url);
                         masteriesImage.Mutate(x => x.Resize(800, (int)NewHeight(masteriesImage.Height, masteriesImage.Width)));
                         image.Mutate(x => x.Resize(800, gearImage.Height + statsImage.Height + masteriesImage.Height));
-                        image.Mutate(x => x.DrawImage(gearImage, new Point(0, 0), 1));
+                        image.Mutate(x => x.DrawImage(gearImage, new SixLabors.Primitives.Point(0, 0), 1));
 
-                        image.Mutate(x => x.DrawImage(statsImage, new Point(0, gearImage.Height), 1));
-                        image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, gearImage.Height * 2), 1));
+                        image.Mutate(x => x.DrawImage(statsImage, new SixLabors.Primitives.Point(0, gearImage.Height), 1));
+                        image.Mutate(x => x.DrawImage(masteriesImage, new SixLabors.Primitives.Point(0, gearImage.Height * 2), 1));
                         await ReplyAndDeleteAsync("Thanks for the build!");
                         champion.name = name.Content;
                         champion.instance = instance.Content;
@@ -298,8 +296,8 @@ namespace GCB
                         var masteriesImage = await StartStreamAsync(url: masteriesUrl);
                         masteriesImage.Mutate(x => x.Resize(800, (int)NewHeight(masteriesImage.Height, masteriesImage.Width)));
                         image.Mutate(x => x.Resize(800, statsGearIage.Height + masteriesImage.Height));
-                        image.Mutate(x => x.DrawImage(statsGearIage, new Point(0, 0), 1));
-                        image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, statsGearIage.Height), 1));
+                        image.Mutate(x => x.DrawImage(statsGearIage, new SixLabors.Primitives.Point(0, 0), 1));
+                        image.Mutate(x => x.DrawImage(masteriesImage, new SixLabors.Primitives.Point(0, statsGearIage.Height), 1));
                         await ReplyAndDeleteAsync("Thanks for the build!");
                         champion.name = name.Content;
                         champion.instance = instance.Content;
@@ -450,9 +448,9 @@ namespace GCB
                             var masteriesImage = await StartStreamAsync(url: mastUrl);
                             masteriesImage.Mutate(x => x.Resize(800, (int)NewHeight(masteriesImage.Height, masteriesImage.Width)));
                             image.Mutate(x => x.Resize(800, gearImage.Height + statsImage.Height + masteriesImage.Height));
-                            image.Mutate(x => x.DrawImage(gearImage, new Point(0, 0), 1));
-                            image.Mutate(x => x.DrawImage(statsImage, new Point(0, gearImage.Height), 1));
-                            image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, gearImage.Height + statsImage.Height), 1));
+                            image.Mutate(x => x.DrawImage(gearImage, new SixLabors.Primitives.Point(0, 0), 1));
+                            image.Mutate(x => x.DrawImage(statsImage, new SixLabors.Primitives.Point(0, gearImage.Height), 1));
+                            image.Mutate(x => x.DrawImage(masteriesImage, new SixLabors.Primitives.Point(0, gearImage.Height + statsImage.Height), 1));
                             await ReplyAndDeleteAsync("Thanks for the build!");
                             if (name.Content != "keep") build.name = name.Content;
                             if (instance.Content != "keep") build.instance = instance.Content;
@@ -531,8 +529,8 @@ namespace GCB
                                 var newH = NewHeight(gearImage2.Height, gearImage2.Width);
                                 gearImage2.Mutate(x => x.Resize(800, (int)newH));
                                 image.Mutate(x => x.Resize(mastImg2.Width, mastImg2.Height));
-                                image.Mutate(x => x.DrawImage(gearImage2, new Point(0, 0), 1));
-                                image.Mutate(x => x.DrawImage(mastImg2, new Point(0, gearImage2.Height), 1));
+                                image.Mutate(x => x.DrawImage(gearImage2, new SixLabors.Primitives.Point(0, 0), 1));
+                                image.Mutate(x => x.DrawImage(mastImg2, new SixLabors.Primitives.Point(0, gearImage2.Height), 1));
                                 if (name.Content.ToLower() != "keep") build.name = name.Content;
                                 if (instance.Content.ToLower() != "keep") build.instance = instance.Content;
                                 build.authorID = Context.Message.Author.Id;
@@ -561,8 +559,8 @@ namespace GCB
                                 var masteriesImage = await StartStreamAsync(url: mastUrl);
                                 masteriesImage.Mutate(x => x.Resize(800, (int)NewHeight(masteriesImage.Height, masteriesImage.Width)));
                                 image.Mutate(x => x.Resize(800, statsGearIage.Height + masteriesImage.Height));
-                                image.Mutate(x => x.DrawImage(statsGearIage, new Point(0, 0), 1));
-                                image.Mutate(x => x.DrawImage(masteriesImage, new Point(0, statsGearIage.Height), 1));
+                                image.Mutate(x => x.DrawImage(statsGearIage, new SixLabors.Primitives.Point(0, 0), 1));
+                                image.Mutate(x => x.DrawImage(masteriesImage, new SixLabors.Primitives.Point(0, statsGearIage.Height), 1));
                                 await ReplyAndDeleteAsync("Thanks for the build!");
                                 if (name.Content.ToLower() != "keep") build.name = name.Content;
                                 if (instance.Content.ToLower() != "keep") build.instance = instance.Content;
@@ -682,9 +680,9 @@ namespace GCB
                         if (images > 2)
                         {
                             image.Mutate(x => x.Resize(800, (gearImage.Height + masteryImage.Height + statsImage.Height)));
-                            image.Mutate(x => x.DrawImage(statsImage, new Point(0, 0), 1));
-                            image.Mutate(x => x.DrawImage(gearImage, new Point(0, gearImage.Height), 1));
-                            image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height + masteryImage.Height), 1));
+                            image.Mutate(x => x.DrawImage(statsImage, new SixLabors.Primitives.Point(0, 0), 1));
+                            image.Mutate(x => x.DrawImage(gearImage, new SixLabors.Primitives.Point(0, gearImage.Height), 1));
+                            image.Mutate(x => x.DrawImage(masteryImage, new SixLabors.Primitives.Point(0, gearImage.Height + masteryImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
                             var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(10));
@@ -693,8 +691,8 @@ namespace GCB
                         else
                         {
                             image.Mutate(x => x.Resize(800, (gearImage.Height + masteryImage.Height + statsImage.Height)));
-                            image.Mutate(x => x.DrawImage(statsImage, new Point(0, 0), 1));
-                            image.Mutate(x => x.DrawImage(masteryImage, new Point(0, gearImage.Height), 1));
+                            image.Mutate(x => x.DrawImage(statsImage, new SixLabors.Primitives.Point(0, 0), 1));
+                            image.Mutate(x => x.DrawImage(masteryImage, new SixLabors.Primitives.Point(0, gearImage.Height), 1));
                             var embed = await StopStreamReturnEmbedAsync(Context, Context.Message, image);
                             embed.Title = ("Heres the new image for your build.");
                             var buildImage = await ReplyAndDeleteAsync("", false, embed.Build(), timeout: TimeSpan.FromMinutes(10));
@@ -939,8 +937,29 @@ namespace GCB
                 await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
         }
+
+        [Command("damage", RunMode = RunMode.Async)]
+        public async Task UpdateCBDamage()
+        {
+            await ReplyAndDeleteAsync("Please post your clan boss damage screen shot.");
+            var upload = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
+            var imageURL = "";
+            if (upload.Content == "") imageURL = upload.Attachments.FirstOrDefault().Url;
+            else imageURL = upload.Content;
+            HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
+            HttpResponseMessage response = null;
+            System.Drawing.Image image = null; /*Creates a null ImageSharp image*/
+            response = await httpClient.GetAsync(imageURL); /*sets the response to the url*/
+            Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
+            image = System.Drawing.Image.FromStream(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
+            var ocr = new TesseractEngine("./tessdata","eng");
+            Pix img = Pix.LoadTiffFromMemory(image);
+            var result = ocr.Process(image);
+        }
+
     }
 }
+
 
 
 
