@@ -14,6 +14,7 @@ using Discord.Addons.Interactive;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tesseract;
+using System.Globalization;
 
 namespace GCB
 {
@@ -21,6 +22,7 @@ namespace GCB
     {
 
         private string randomString = ""; /*Creates a empty string*/
+        public static List<string> damageList = new List<string>();
         public async Task<SixLabors.ImageSharp.Image<Rgba32>> StartStreamAsync(IUser user = null, string url = null, string path = null) /*Creates a async Task that returns a ImageSharp image with a user and url param*/
         {
             HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
@@ -948,6 +950,8 @@ namespace GCB
             response = await httpClient.GetAsync(url); /*sets the response to the url*/
             Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
             image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
+            image.Mutate(x => x.Resize(image.Width * 2, image.Height * 2));
+            image.Mutate(x => x.BinaryThreshold(.5f));
             Stream outputStream = new MemoryStream();
             image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
             outputStream.Position = 0;
@@ -967,9 +971,25 @@ namespace GCB
                     }
                 }
             }
-            //var lines = text.Split("\n")
-            await ReplyAndDeleteAsync($"OCR Data:\n{text}");
+            List<string> lines = text.Split("\n").ToList();
+            var boss = lines.Find(x => x.Contains("Demon Lord"));
+            boss = boss.Replace("u, Skip>", "", true, CultureInfo.CurrentCulture);
+            boss = boss.Remove(boss.IndexOf(',') - 1);
+            var damage = lines.Find(x => x.Contains("Damage"));
+            //damage = damage.Replace("é", "e");
+            var output = await ReplyAndDeleteAsync($"{Context.User.Username}:\n{boss}\n{damage}");
+            damageList.Add(output.Content);
             File.Delete($"./images/upload.png");
+        }
+        [Command("check", RunMode = RunMode.Async)]
+        public async Task CheckDamageList()
+        {
+            var output = "";
+            foreach(var i in damageList)
+            {
+                output += $"{i}\n";
+            }
+            await ReplyAndDeleteAsync(output);
         }
     }
 }

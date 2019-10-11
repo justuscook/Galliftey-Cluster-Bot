@@ -140,7 +140,7 @@ namespace Raid_SL_Bot
             client.Ready += async () =>
             {
                 await client.SetGameAsync("the Gallifrey Cluster", null, ActivityType.Watching);
-                await client.SetStatusAsync(UserStatus.Invisible);
+                //await client.SetStatusAsync(UserStatus.Invisible);
             };
             //bot code that kinda make sense to me lol
             services = new ServiceCollection()
