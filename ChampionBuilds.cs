@@ -983,7 +983,7 @@ namespace GCB
                 List<string> lines = text.Split("\n").ToList();
                 var boss = lines.Find(x => x.Contains("Demon Lord"));
                 boss = boss.Replace("u, Skip>", "", true, CultureInfo.CurrentCulture);
-                boss = boss.Remove(boss.IndexOf(',') - 1);
+                //boss = boss.Remove(boss.IndexOf(',') - 1);
                 var damage = lines.Find(x => x.Contains("Damage"));
                 //damage = damage.Replace("é", "e");
                 var output = await ReplyAndDeleteAsync($"{Context.User.Username}:\n{boss}\n{damage}");
