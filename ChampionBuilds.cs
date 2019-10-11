@@ -12,6 +12,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using System.Net.Http;
 using Discord.Addons.Interactive;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Tesseract;
 
 namespace GCB
@@ -939,24 +940,37 @@ namespace GCB
         }
 
         [Command("damage", RunMode = RunMode.Async)]
-        public async Task UpdateCBDamage()
+        public async Task UpdateCBDamage(string url = null)
         {
-            await ReplyAndDeleteAsync("Please post your clan boss damage screen shot.");
-            var upload = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
-            var imageURL = "";
-            if (upload.Content == "") imageURL = upload.Attachments.FirstOrDefault().Url;
-            else imageURL = upload.Content;
             HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
             HttpResponseMessage response = null;
-            System.Drawing.Image image = null; /*Creates a null ImageSharp image*/
-            response = await httpClient.GetAsync(imageURL); /*sets the response to the url*/
+            SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
+            response = await httpClient.GetAsync(url); /*sets the response to the url*/
             Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
-            image = System.Drawing.Image.FromStream(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
-            var ocr = new TesseractEngine("./tessdata","eng");
-            Pix img = Pix.LoadTiffFromMemory(image);
-            var result = ocr.Process(image);
+            image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
+            Stream outputStream = new MemoryStream();
+            image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
+            outputStream.Position = 0;
+            var file = File.Create("./images/upload.png"); /*creates a file with the random string as the name*/
+            await outputStream.CopyToAsync(file);
+            file.Dispose();
+            /*deletes the image after sending*/
+            inputStream.Dispose();
+            var text = "";
+            using (var engine = new TesseractEngine("./tessdata", "eng", EngineMode.TesseractOnly))
+            {
+                using (var img = Pix.LoadFromFile("./images/upload.png"))
+                {
+                    using (var page = engine.Process(img))
+                    {
+                        text = page.GetText();
+                    }
+                }
+            }
+            //var lines = text.Split("\n")
+            await ReplyAndDeleteAsync($"OCR Data:\n{text}");
+            File.Delete($"./images/upload.png");
         }
-
     }
 }
 
