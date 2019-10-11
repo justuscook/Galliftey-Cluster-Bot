@@ -944,49 +944,57 @@ namespace GCB
         [Command("damage", RunMode = RunMode.Async)]
         public async Task UpdateCBDamage(string url = null)
         {
-            if (url == null)
+            try
             {
-                await ReplyAndDeleteAsync("Would you kindly upload an SS of CB damage, TY.");
-                var ss = await NextMessageAsync();
-                if (ss.Content == "") url = ss.Attachments.FirstOrDefault().Url;
-                else if (ss.Content.ToLower() == "keep") url = ss.Content;
-            }
-            HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
-            HttpResponseMessage response = null;
-            SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
-            response = await httpClient.GetAsync(url); /*sets the response to the url*/
-            Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
-            image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
-            image.Mutate(x => x.Resize(image.Width * 2, image.Height * 2));
-            image.Mutate(x => x.BinaryThreshold(.5f));
-            Stream outputStream = new MemoryStream();
-            image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
-            outputStream.Position = 0;
-            var file = File.Create("./images/upload.png"); /*creates a file with the random string as the name*/
-            await outputStream.CopyToAsync(file);
-            file.Dispose();
-            /*deletes the image after sending*/
-            inputStream.Dispose();
-            var text = "";
-            using (var engine = new TesseractEngine("./tessdata", "eng", EngineMode.TesseractOnly))
-            {
-                using (var img = Pix.LoadFromFile("./images/upload.png"))
+                if (url == null)
                 {
-                    using (var page = engine.Process(img))
+                    await ReplyAndDeleteAsync("Would you kindly upload an SS of CB damage, TY.");
+                    var ss = await NextMessageAsync();
+                    if (ss.Content == "") url = ss.Attachments.FirstOrDefault().Url;
+                    else if (ss.Content.ToLower() == "keep") url = ss.Content;
+                }
+                HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
+                HttpResponseMessage response = null;
+                SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
+                response = await httpClient.GetAsync(url); /*sets the response to the url*/
+                Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
+                image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
+                image.Mutate(x => x.Resize(image.Width * 2, image.Height * 2));
+                image.Mutate(x => x.BinaryThreshold(.5f));
+                Stream outputStream = new MemoryStream();
+                image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
+                outputStream.Position = 0;
+                var file = File.Create("./images/upload.png"); /*creates a file with the random string as the name*/
+                await outputStream.CopyToAsync(file);
+                file.Dispose();
+                /*deletes the image after sending*/
+                inputStream.Dispose();
+                var text = "";
+                using (var engine = new TesseractEngine("./tessdata", "eng", EngineMode.TesseractOnly))
+                {
+                    using (var img = Pix.LoadFromFile("./images/upload.png"))
                     {
-                        text = page.GetText();
+                        using (var page = engine.Process(img))
+                        {
+                            text = page.GetText();
+                        }
                     }
                 }
+                List<string> lines = text.Split("\n").ToList();
+                var boss = lines.Find(x => x.Contains("Demon Lord"));
+                boss = boss.Replace("u, Skip>", "", true, CultureInfo.CurrentCulture);
+                boss = boss.Remove(boss.IndexOf(',') - 1);
+                var damage = lines.Find(x => x.Contains("Damage"));
+                //damage = damage.Replace("é", "e");
+                var output = await ReplyAndDeleteAsync($"{Context.User.Username}:\n{boss}\n{damage}");
+                damageList.Add(output.Content);
+                File.Delete($"./images/upload.png");
             }
-            List<string> lines = text.Split("\n").ToList();
-            var boss = lines.Find(x => x.Contains("Demon Lord"));
-            boss = boss.Replace("u, Skip>", "", true, CultureInfo.CurrentCulture);
-            boss = boss.Remove(boss.IndexOf(',') - 1);
-            var damage = lines.Find(x => x.Contains("Damage"));
-            //damage = damage.Replace("é", "e");
-            var output = await ReplyAndDeleteAsync($"{Context.User.Username}:\n{boss}\n{damage}");
-            damageList.Add(output.Content);
-            File.Delete($"./images/upload.png");
+
+            catch
+            {
+                await ReplyAndDeleteAsync("Yea... That did't work.. Its prbably bad image quailty try a better SS.  Are you playing on a flip phone?");
+            }
         }
         [Command("check", RunMode = RunMode.Async)]
         public async Task CheckDamageList()
