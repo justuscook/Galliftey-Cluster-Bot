@@ -993,7 +993,7 @@ namespace GCB
 
             catch
             {
-                await ReplyAndDeleteAsync("Yea... That did't work.. Its prbably bad image quailty try a better SS.  Are you playing on a flip phone?");
+                await ReplyAndDeleteAsync("Yea... That did't work.. Its probably bad image quailty try a better SS.  Are you playing on a flip phone?");
             }
         }
         [Command("check", RunMode = RunMode.Async)]
