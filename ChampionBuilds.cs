@@ -964,7 +964,7 @@ namespace GCB
                 Stream outputStream = new MemoryStream();
                 image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
                 outputStream.Position = 0;
-                var file = File.Create("./images/upload.png"); /*creates a file with the random string as the name*/
+                var file = File.Create("./images/IMAGE.png"); /*creates a file with the random string as the name*/
                 await outputStream.CopyToAsync(file);
                 file.Dispose();
                 /*deletes the image after sending*/
@@ -972,7 +972,7 @@ namespace GCB
                 var text = "";
                 using (var engine = new TesseractEngine("./tessdata", "eng", EngineMode.TesseractOnly))
                 {
-                    using (var img = Pix.LoadFromFile("./images/upload.png"))
+                    using (var img = Pix.LoadFromFile("./images/IMAGE.png"))
                     {
                         using (var page = engine.Process(img))
                         {
@@ -988,12 +988,12 @@ namespace GCB
                 //damage = damage.Replace("é", "e");
                 var output = await ReplyAndDeleteAsync($"{Context.User.Username}:\n{boss}\n{damage}");
                 damageList.Add(output.Content);
-                File.Delete($"./images/upload.png");
+                //File.Delete($"./images/IMAGE.png");
             }
 
-            catch
+            catch(Exception e)
             {
-                await ReplyAndDeleteAsync("Yea... That did't work.. Its probably bad image quailty try a better SS.  Are you playing on a flip phone?");
+                await ReplyAndDeleteAsync($"Yea... That did't work.. Its probably bad image quailty try a better SS.  Are you playing on a flip phone?\n{e.Message}");
             }
         }
         [Command("check", RunMode = RunMode.Async)]
