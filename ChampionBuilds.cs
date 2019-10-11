@@ -944,6 +944,13 @@ namespace GCB
         [Command("damage", RunMode = RunMode.Async)]
         public async Task UpdateCBDamage(string url = null)
         {
+            if (url == null)
+            {
+                await ReplyAndDeleteAsync("Would you kindly upload an SS of CB damage, TY.");
+                var ss = await NextMessageAsync();
+                if (ss.Content == "") url = ss.Attachments.FirstOrDefault().Url;
+                else if (ss.Content.ToLower() == "keep") url = ss.Content;
+            }
             HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
             HttpResponseMessage response = null;
             SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
@@ -985,7 +992,7 @@ namespace GCB
         public async Task CheckDamageList()
         {
             var output = "";
-            foreach(var i in damageList)
+            foreach (var i in damageList)
             {
                 output += $"{i}\n";
             }
