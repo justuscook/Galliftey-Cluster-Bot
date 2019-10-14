@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Text.RegularExpressions;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Net.Http;
@@ -17,6 +15,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tesseract;
 using OpenCvSharp;
+using System.Globalization;
 
 namespace GCB
 {
@@ -24,6 +23,7 @@ namespace GCB
     {
 
         private string randomString = ""; /*Creates a empty string*/
+        public static List<string> damageList = new List<string>();
         public async Task<SixLabors.ImageSharp.Image<Rgba32>> StartStreamAsync(IUser user = null, string url = null, string path = null) /*Creates a async Task that returns a ImageSharp image with a user and url param*/
         {
             HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
@@ -941,35 +941,71 @@ namespace GCB
                 await ReplyAndDeleteAsync("", embed: eEmbed.Build());
             }
         }
+
         [Command("damage", RunMode = RunMode.Async)]
         public async Task UpdateCBDamage(string url = null)
         {
-            HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
-            HttpResponseMessage response = null;
-            SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
-            response = await httpClient.GetAsync(url); /*sets the response to the url*/
-            Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
-            image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
-            Stream outputStream = new MemoryStream();
-            image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/            var file = File.Create("./images/upload.png"); /*creates a file with the random string as the name*/
-            await outputStream.CopyToAsync(file);
-            file.Dispose();
-            /*deletes the image after sending*/
-            inputStream.Dispose();
-            var text = "";
-            using (var engine = new TesseractEngine("./tessdata", "eng", EngineMode.TesseractOnly))
+            try
             {
-                using (var img = Pix.LoadFromFile("./images/upload.png"))
+                if (url == null)
                 {
-                    using (var page = engine.Process(img))
+                    await ReplyAndDeleteAsync("Would you kindly upload an SS of CB damage, TY.");
+                    var ss = await NextMessageAsync();
+                    if (ss.Content == "") url = ss.Attachments.FirstOrDefault().Url;
+                    else if (ss.Content.ToLower() == "keep") url = ss.Content;
+                }
+                HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
+                HttpResponseMessage response = null;
+                SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
+                response = await httpClient.GetAsync(url); /*sets the response to the url*/
+                Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
+                image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
+                image.Mutate(x => x.Resize(image.Width * 2, image.Height * 2));
+                image.Mutate(x => x.BinaryThreshold(.5f));
+                Stream outputStream = new MemoryStream();
+                image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
+                outputStream.Position = 0;
+                var file = File.Create("./images/IMAGE.png"); /*creates a file with the random string as the name*/
+                await outputStream.CopyToAsync(file);
+                file.Dispose();
+                /*deletes the image after sending*/
+                inputStream.Dispose();
+                var text = "";
+                using (var engine = new TesseractEngine("./tessdata", "eng", EngineMode.TesseractOnly))
+                {
+                    using (var img = Pix.LoadFromFile("./images/IMAGE.png"))
                     {
-                        text = page.GetText();
+                        using (var page = engine.Process(img))
+                        {
+                            text = page.GetText();
+                        }
                     }
                 }
+                List<string> lines = text.Split("\n").ToList();
+                var boss = lines.Find(x => x.Contains("Demon Lord"));
+                boss = boss.Replace("u, Skip>", "", true, CultureInfo.CurrentCulture);
+                //boss = boss.Remove(boss.IndexOf(',') - 1);
+                var damage = lines.Find(x => x.Contains("Damage"));
+                //damage = damage.Replace("é", "e");
+                var output = await ReplyAndDeleteAsync($"{Context.User.Username}:\n{boss}\n{damage}");
+                damageList.Add(output.Content);
+                //File.Delete($"./images/IMAGE.png");
             }
-            //var lines = text.Split("\n")
-            await ReplyAndDeleteAsync($"OCR Data:\n{text}");
-            File.Delete($"./images/upload.png");
+
+            catch (Exception e)
+            {
+                await ReplyAndDeleteAsync($"Yea... That did't work.. Its probably bad image quailty try a better SS.  Are you playing on a flip phone?\n{e.Message}\n{e.InnerException.Message}");
+            }
+        }
+        [Command("check", RunMode = RunMode.Async)]
+        public async Task CheckDamageList()
+        {
+            var output = "";
+            foreach (var i in damageList)
+            {
+                output += $"{i}\n";
+            }
+            await ReplyAndDeleteAsync(output);
         }
         [Command("scan", RunMode = RunMode.Async)]
         public async Task ScanUpload(string url = null)
@@ -992,16 +1028,17 @@ namespace GCB
             var searchFor = new Mat("./images/Kael.png");
             var toSearch = new Mat("./images/collection.png");
             var result = toSearch.MatchTemplate(searchFor, TemplateMatchModes.CCoeff);
-            toSearch.thr
+            /*toSearch.thr
             foreach(var r in )
             {
 
-            }
+            }*/
             await ReplyAndDeleteAsync($"{min}, {max}");
         }
 
     }
 }
+
 
 
 
