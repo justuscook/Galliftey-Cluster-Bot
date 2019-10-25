@@ -16,6 +16,8 @@ using Newtonsoft.Json.Linq;
 using Tesseract;
 using OpenCvSharp;
 using System.Globalization;
+using SixLabors.Primitives;
+using System.Drawing.Imaging;
 
 namespace GCB
 {
@@ -186,7 +188,7 @@ namespace GCB
                         if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                     }
                     await ReplyAndDeleteAsync("Build notes?");
-                    var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
+                    var note = await NextMessageAsync(true, true, TimeSpan.FromMinutes(30));
                     if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                     {
                         await ReplyAndDeleteAsync("Submission canceled.");
@@ -279,7 +281,7 @@ namespace GCB
                         if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                     }
                     await ReplyAndDeleteAsync("Build notes?");
-                    var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
+                    var note = await NextMessageAsync(true, true, TimeSpan.FromMinutes(30));
                     if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                     {
                         await ReplyAndDeleteAsync("Submission canceled.");
@@ -426,7 +428,7 @@ namespace GCB
                             if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                         }
                         await ReplyAndDeleteAsync($"Build notes? Currently: {build.note}");
-                        var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
+                        var note = await NextMessageAsync(true, true, TimeSpan.FromMinutes(30));
                         if (exitStrings.Contains(note.Content.ToLower()) || note == null)
                         {
                             await ReplyAndDeleteAsync("Submission canceled.");
@@ -514,8 +516,7 @@ namespace GCB
                             if (mastieries.Content.ToLower() == "exit" || mastieries.Content == null) return;
                         }
                         await ReplyAndDeleteAsync($"Build notes? Currently: {build.note}");
-                        var note = await NextMessageAsync(true, true, TimeSpan.FromSeconds(30));
-                        if (exitStrings.Contains(note.Content.ToLower()) || note == null)
+                        var note = await NextMessageAsync(true, true, TimeSpan.FromMinutes(30));
                         {
                             await ReplyAndDeleteAsync("Submission canceled.");
                             if (note.Content.ToLower() == "exit" || note.Content == null) return;
@@ -1007,34 +1008,39 @@ namespace GCB
             }
             await ReplyAndDeleteAsync(output);
         }
+        /*
         [Command("scan", RunMode = RunMode.Async)]
         public async Task ScanUpload(string url = null)
         {
-            HttpClient httpClient = new HttpClient(); /*Creates a new HttpClient*/
+            HttpClient httpClient = new HttpClient();
             HttpResponseMessage response = null;
-            SixLabors.ImageSharp.Image<Rgba32> image = null; /*Creates a null ImageSharp image*/
-            response = await httpClient.GetAsync(url); /*sets the response to the url*/
-            Stream inputStream = await response.Content.ReadAsStreamAsync(); /*creates a inputStream variable and reads the url*/
-            image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); /*Loads the image to the ImageSharp image we created earlier*/
+            SixLabors.ImageSharp.Image<Rgba32> image = null; 
+            response = await httpClient.GetAsync(url);
+            Stream inputStream = await response.Content.ReadAsStreamAsync(); 
+            image = SixLabors.ImageSharp.Image.Load<Rgba32>(inputStream); 
             Stream outputStream = new MemoryStream();
-            image.SaveAsPng(outputStream); /*saves the image as a jpg you can of course change this*/
+            image.SaveAsPng(outputStream); 
             outputStream.Position = 0;
-            var file = File.Create("./images/collection.png"); /*creates a file with the random string as the name*/
-            await outputStream.CopyToAsync(file);
+            var file = File.Create("./images/collection.png"); 
+            await outputStream.CopyToAsync(file);            
             file.Dispose();
-            /*deletes the image after sending*/
             inputStream.Dispose();
             //res = cv.matchTemplate(img, template, method)
-            var searchFor = new Mat("./images/Kael.png");
+            var searchFor = new Mat("./images/Lord_Champfort.png");
             var toSearch = new Mat("./images/collection.png");
-            var result = toSearch.MatchTemplate(searchFor, TemplateMatchModes.CCoeff);
-            /*toSearch.thr
-            foreach(var r in )
+            var result = toSearch.MatchTemplate(searchFor, TemplateMatchModes.CCoeffNormed);
+            result.MinMaxLoc(out double min, out double max);
+            if (max > .9)
             {
+                await ReplyAndDeleteAsync($"We have a winner! Value: {max}");
+            }
+            else
+            {
+                await ReplyAndDeleteAsync($"Sorry my man, no dice: Value {max}");
+            }
 
-            }*/
-            await ReplyAndDeleteAsync($"{min}, {max}");
-        }
+
+        }*/
 
     }
 }
