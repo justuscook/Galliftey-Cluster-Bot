@@ -96,9 +96,8 @@ namespace Raid_SL_Bot
 
                     var galliwho = client.GetChannel(644660214578151426) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(arcadian, 25);
-                    var gNMTeam = client.GetGuild(514616202249895936).GetRole(614098995731759125);//g2
-                    var gBruTeam = client.GetGuild(514616202249895936).GetRole(614098870615670795);//g2
-                    await galliwho.SendMessageAsync($"3 Hours to Clan Boss reset!! {gNMTeam.Mention} {gBruTeam.Mention}");
+                    var gNMTeam = client.GetGuild(514616202249895936).GetRole(587325086168514580);//g2
+                    await galliwho.SendMessageAsync($"3 Hours to Clan Boss reset!! {gNMTeam.Mention}");
                 }
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(6, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(6, 1, 0))
                 {
