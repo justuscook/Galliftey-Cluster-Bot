@@ -69,7 +69,7 @@ namespace Raid_SL_Bot
                     var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
                     await daleks.SendMessageAsync($"Clan Boss has started. {dNMTeam.Mention} reminder to use 2 keys max for first 8 hours.");
                 }
-                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(2, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(2, 1, 0))
+                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(18, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(18, 1, 0))
                 {
                     var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(daleks, 25);
