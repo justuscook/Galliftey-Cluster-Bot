@@ -59,8 +59,30 @@ namespace Raid_SL_Bot
         }
         public async void tick(object sender, EventArgs e)
         {
+            //10mam utc reset
             try
             {
+                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(10, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(10, 1, 0))
+                {
+                    var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
+                    await DeleteOldBotMessages(daleks, 25);
+                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
+                    await daleks.SendMessageAsync($"Clan Boss has started. {dNMTeam.Mention} reminder to use 2 keys max for first 8 hours.");
+                }
+                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(2, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(2, 1, 0))
+                {
+                    var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
+                    await DeleteOldBotMessages(daleks, 25);
+                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
+                    await daleks.SendMessageAsync($"Key restriction is now lifted on UNM. {dNMTeam.Mention} only to use remaining keys to get max chest.");
+                }
+                if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(4, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(4, 1, 0))
+                {
+                    var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
+                    await DeleteOldBotMessages(daleks, 25);
+                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
+                    await daleks.SendMessageAsync($"UNM CB is now FFA, mods will reach out for outside help to down boss, NM hitters can try a key on UNM {dNMTeam.Mention} only to use remaining keys to get max chest.");
+                }
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
                 {
 
@@ -75,13 +97,7 @@ namespace Raid_SL_Bot
                     var sNMTeam = client.GetGuild(514616202249895936).GetRole(614099127583768581);//g2
                     var sBruTeam = client.GetGuild(514616202249895936).GetRole(614099242075553805);//g2
                     await skaro.SendMessageAsync($"3 Hours to Clan Boss reset!! {sNMTeam.Mention} {sBruTeam.Mention}");
-
-                    var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
-                    await DeleteOldBotMessages(daleks, 25);
-                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
-                    var dBruTeam = client.GetGuild(514616202249895936).GetRole(614099709375807508);//g2
-                    await daleks.SendMessageAsync($"3 Hours to Clan Boss reset!! {dNMTeam.Mention} {dBruTeam.Mention}");
-
+                    
                     var headless = client.GetChannel(552884924571713566) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(headless, 25);
                     var hNMTeam = client.GetGuild(514616202249895936).GetRole(614098743326933024);//g2
