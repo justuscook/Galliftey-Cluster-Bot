@@ -66,22 +66,23 @@ namespace Raid_SL_Bot
                 {
                     var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(daleks, 25);
-                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
-                    await daleks.SendMessageAsync($"Clan Boss has started. {dNMTeam.Mention} reminder to use 2 keys max for first 8 hours.");
+                    var dUNMTeam = client.GetGuild(514616202249895936).GetRole(614099709375807508);//g2
+                    await daleks.SendMessageAsync($"Clan Boss has started. {dUNMTeam.Mention} reminder to use 2 keys max for first 8 hours.");
                 }
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(18, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(18, 1, 0))
                 {
                     var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(daleks, 25);
-                    var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
-                    await daleks.SendMessageAsync($"Key restriction is now lifted on UNM. {dNMTeam.Mention} only to use remaining keys to get max chest.");
+                    var dUNMTeam = client.GetGuild(514616202249895936).GetRole(614099709375807508);//g2
+                    await daleks.SendMessageAsync($"Key restriction is now lifted on UNM. {dUNMTeam.Mention} only to use remaining keys to get max chest.");
                 }
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(4, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(4, 1, 0))
                 {
                     var daleks = client.GetChannel(525048036280369162) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(daleks, 25);
                     var dNMTeam = client.GetGuild(514616202249895936).GetRole(614099624285831179);//g2
-                    await daleks.SendMessageAsync($"UNM CB is now FFA, mods will reach out for outside help to down boss, NM hitters can try a key on UNM {dNMTeam.Mention} only to use remaining keys to get max chest.");
+                    var dUNMTeam = client.GetGuild(514616202249895936).GetRole(614099709375807508);//g2
+                    await daleks.SendMessageAsync($"{dUNMTeam.Mention} CB is now FFA, mods will reach out for outside help to down boss, {dNMTeam.Mention} can try a key on UNM  only to use remaining keys to get max chest.");
                 }
                 if (DateTime.UtcNow.TimeOfDay >= new TimeSpan(7, 0, 0) && DateTime.UtcNow.TimeOfDay <= new TimeSpan(7, 1, 0))
                 {
