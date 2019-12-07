@@ -112,7 +112,7 @@ namespace Raid_SL_Bot
                     await arcadian.SendMessageAsync($"3 Hours to Clan Boss reset!! {aNMTeam.Mention} {aBruTeam.Mention}");
 
                     var galliwho = client.GetChannel(644660214578151426) as ISocketMessageChannel;//g2 CB chan
-                    await DeleteOldBotMessages(arcadian, 25);
+                    await DeleteOldBotMessages(galliwho, 25);
                     var gNMTeam = client.GetGuild(514616202249895936).GetRole(587325086168514580);//g2
                     await galliwho.SendMessageAsync($"3 Hours to Clan Boss reset!! {gNMTeam.Mention}");
                 }
