@@ -105,11 +105,7 @@ namespace Raid_SL_Bot
                     var hBruTeam = client.GetGuild(514616202249895936).GetRole(614098324160643082);//g2
                     await headless.SendMessageAsync($"3 Hours to Clan Boss reset!! {hNMTeam.Mention} {hBruTeam.Mention}");
 
-                    var arcadian = client.GetChannel(579711482653048852) as ISocketMessageChannel;//g2 CB chan
-                    await DeleteOldBotMessages(arcadian, 25);
-                    var aNMTeam = client.GetGuild(514616202249895936).GetRole(614098995731759125);//g2
-                    var aBruTeam = client.GetGuild(514616202249895936).GetRole(614098870615670795);//g2
-                    await arcadian.SendMessageAsync($"3 Hours to Clan Boss reset!! {aNMTeam.Mention} {aBruTeam.Mention}");
+                    
 
                     var galliwho = client.GetChannel(644660214578151426) as ISocketMessageChannel;//g2 CB chan
                     await DeleteOldBotMessages(galliwho, 25);
@@ -129,6 +125,12 @@ namespace Raid_SL_Bot
                     var fNMTeam = client.GetGuild(514616202249895936).GetRole(614098420323319809);
                     var fBruTeam = client.GetGuild(514616202249895936).GetRole(614098324093534236);
                     await faceless.SendMessageAsync($"4 Hours to Clan Boss reset!! {fNMTeam.Mention} {fBruTeam.Mention}");
+
+                    var arcadian = client.GetChannel(579711482653048852) as ISocketMessageChannel;//g2 CB chan
+                    await DeleteOldBotMessages(arcadian, 25);
+                    var aNMTeam = client.GetGuild(514616202249895936).GetRole(614098995731759125);//g2
+                    var aBruTeam = client.GetGuild(514616202249895936).GetRole(614098870615670795);//g2
+                    await arcadian.SendMessageAsync($"4 Hours to Clan Boss reset!! {aNMTeam.Mention} {aBruTeam.Mention}");
                 }
             }
             catch (Exception err)
